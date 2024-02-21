@@ -55,6 +55,6 @@ public class Tituulo {
         totalDeAvaliacoes++;
     }
     public double pegaMedia(){
-        return Math.round(somaDasAvaliacoes / totalDeAvaliacoes);
+        return somaDasAvaliacoes / totalDeAvaliacoes;
     }
 }
