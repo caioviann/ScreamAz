@@ -1,5 +1,6 @@
 import henrique.caio.screenAz.calculos.CalculadoraDeTempo;
 import henrique.caio.screenAz.calculos.FiltroRecomendacao;
+import henrique.caio.screenAz.modelos.Episodios;
 import henrique.caio.screenAz.modelos.Filme;
 import henrique.caio.screenAz.modelos.Serie;
 
@@ -40,4 +41,11 @@ public class Principal {
 
         FiltroRecomendacao filtro = new FiltroRecomendacao();
         filtro.filtra(meuFilme);
+
+        Episodios episodio = new Episodios();
+        episodio.setNumero(1);
+        episodio.setSerie(lost);
+        episodio.setTotalVizualizacoes(300);
+        filtro.filtra(episodio);
+
 }}
