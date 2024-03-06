@@ -11,5 +11,6 @@ public class FiltroRecomendacao {
         } else {
             System.out.println("coloque na sua lista para assitir depois");
         }
+        System.out.println("abdada");
     }
 }
