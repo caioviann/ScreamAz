@@ -47,5 +47,5 @@ public class Principal {
         episodio.setSerie(lost);
         episodio.setTotalVizualizacoes(300);
         filtro.filtra(episodio);
-
+        System.out.println("teste de repositório no mac");
 }}
