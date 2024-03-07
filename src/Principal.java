@@ -48,4 +48,13 @@ public class Principal {
         episodio.setTotalVizualizacoes(300);
         filtro.filtra(episodio);
 
-}}
+        var filmeDoPaulo = new Filme();
+        filmeDoPaulo.setDuracaoEmMinutos(200);
+        filmeDoPaulo.setNome("Dogville");
+        filmeDoPaulo.setAnodeLancamento(2003);
+        filmeDoPaulo.avalia(10);
+
+
+
+    }
+}
