@@ -1,3 +1,5 @@
+package henrique.caio.screenAz.principal;
+
 import henrique.caio.screenAz.calculos.CalculadoraDeTempo;
 import henrique.caio.screenAz.calculos.FiltroRecomendacao;
 import henrique.caio.screenAz.modelos.Episodios;
