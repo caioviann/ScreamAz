@@ -1,11 +1,17 @@
 package henrique.caio.screenAz.modelos;
 
 public class Tituulo {
+
+    private String nome;
     private int anoDeLancamento;
     private boolean incluidoNoPlano;
     private double somaDasAvaliacoes;
     private int totalDeAvaliacoes;
-    private String nome;
+
+    public Tituulo(String nome, int anoDeLancamento) {
+        this.nome = nome;
+        this.anoDeLancamento = anoDeLancamento;
+    }
 
     public String getNome() {
         return nome;
