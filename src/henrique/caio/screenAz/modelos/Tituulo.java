@@ -1,6 +1,6 @@
 package henrique.caio.screenAz.modelos;
 
-public class Tituulo {
+public class Tituulo implements Comparable<Tituulo> {
 
     private String nome;
     private int anoDeLancamento;
@@ -62,5 +62,10 @@ public class Tituulo {
     }
     public double pegaMedia(){
         return somaDasAvaliacoes / totalDeAvaliacoes;
+    }
+
+    @Override
+    public int compareTo(Tituulo outoTitulo) {
+        return this.getNome().compareTo(outoTitulo.getNome());
     }
 }
