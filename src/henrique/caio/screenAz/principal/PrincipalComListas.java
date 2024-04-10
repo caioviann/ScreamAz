@@ -4,9 +4,7 @@ import henrique.caio.screenAz.modelos.Filme;
 import henrique.caio.screenAz.modelos.Serie;
 import henrique.caio.screenAz.modelos.Tituulo;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.*;
 
 public class PrincipalComListas {
     public static void main(String[] args) {
@@ -32,7 +30,7 @@ public class PrincipalComListas {
         }
 
 
-        ArrayList<String> buscaPorArtista = new ArrayList<>();
+        List<String> buscaPorArtista = new LinkedList<>();
         buscaPorArtista.add("Henrique");
         buscaPorArtista.add("Adam Sandler");
         buscaPorArtista.add("Caio");
