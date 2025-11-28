@@ -1,5 +1,8 @@
 package henrique.caio.screenAz.modelos;
 
+import com.google.gson.annotations.SerializedName;
+import henrique.caio.screenAz.execao.ErroDeConversaoDeAnoException;
+
 public class Tituulo implements Comparable<Tituulo> {
 
     private String nome;
@@ -11,6 +14,16 @@ public class Tituulo implements Comparable<Tituulo> {
     public Tituulo(String nome, int anoDeLancamento) {
         this.nome = nome;
         this.anoDeLancamento = anoDeLancamento;
+    }
+
+    public Tituulo(TitulosOMDB meuTituloOMDB){
+        this.nome = meuTituloOMDB.title();
+
+        if(meuTituloOMDB.year().length() > 4){
+            throw new ErroDeConversaoDeAnoException("Não conseguir  converter o ano porque tem mais caracter que o permitido");
+        }
+        this.anoDeLancamento = Integer.valueOf(meuTituloOMDB.year());
+        this.duracaoEmMinutos = Integer.valueOf(meuTituloOMDB.runtime().substring(0,2));
     }
 
     public String getNome() {
@@ -67,5 +80,12 @@ public class Tituulo implements Comparable<Tituulo> {
     @Override
     public int compareTo(Tituulo outroTitulo) {
         return this.getNome().compareTo(outroTitulo.getNome());
+    }
+
+    @Override
+    public String toString() {
+        return "(nome= '" + nome + '\'' +
+                ", anoDeLancamento= " + anoDeLancamento + ", " +
+                "Duração em minutos= " + duracaoEmMinutos + ")";
     }
 }
