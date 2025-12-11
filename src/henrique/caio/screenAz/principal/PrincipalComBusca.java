@@ -7,7 +7,6 @@ import henrique.caio.screenAz.execao.ErroDeConversaoDeAnoException;
 import henrique.caio.screenAz.modelos.TitulosOMDB;
 import henrique.caio.screenAz.modelos.Tituulo;
 
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URI;
@@ -19,14 +18,18 @@ import java.util.List;
 import java.util.Scanner;
 
 public class PrincipalComBusca {
+    static HttpClient client = HttpClient.newHttpClient();
+    static Scanner sc = new Scanner(System.in);
+    static String search = "";
+    static List<Tituulo> titles = new ArrayList<>();
+    static Gson gson = new GsonBuilder()
+            .setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE)
+            .setPrettyPrinting()
+            .create();
+    static TitulosOMDB meuTituloOMDB;
+
     public static void main(String[] args) throws IOException, InterruptedException {
-        Scanner sc = new Scanner(System.in);
-        String search = "";
-        List<Tituulo> titles = new ArrayList<>();
-        Gson gson = new GsonBuilder()
-                .setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE)
-                .setPrettyPrinting()
-                .create();
+
 
         while (!search.equalsIgnoreCase("sair")) {
             System.out.print("Digite um Filme para busca: ");
@@ -36,43 +39,56 @@ public class PrincipalComBusca {
 
             String address = "http://www.omdbapi.com/?t=" + search.replace(" ", "+") + "&apikey=ce3ed0d3";
 
-            try {
-                //mais informações no JAVA DOC
-                HttpClient client = HttpClient.newHttpClient();
-                HttpRequest request = HttpRequest.newBuilder()
-                        .uri(URI.create(address))
-                        .build();
-
-                HttpResponse<String> response = client
-                        .send(request, HttpResponse.BodyHandlers.ofString());
-
-                String json = response.body();
-                System.out.println(json);
-
-                TitulosOMDB meuTituloOMDB = gson.fromJson(json, TitulosOMDB.class);
-                System.out.println(meuTituloOMDB);
-
-                Tituulo meuTitulo = new Tituulo(meuTituloOMDB);
-                System.out.println("Titulo ja convertido");
-                System.out.println(meuTitulo);
-
-                titles.add(meuTitulo);
-
-            } catch (NumberFormatException e) {
-                System.err.println("Aconteceu um erro: ");
-                System.out.println(e.getMessage());
-            } catch (IllegalArgumentException e) {
-                System.err.println("Algum erro de argumento");
-            } catch (ErroDeConversaoDeAnoException e) {
-                System.out.println(e.getMessage());
-            }
+            TitulosOMDB titulosOMDB = pegaTitulo(address);
+            adicionaNaLista(titulosOMDB);
         }
 
-        System.out.println(titles);
+        escreveNoArquivo();
+        System.out.println("O programa finalizou corretamente.");
+    }
 
+    public static TitulosOMDB pegaTitulo(String address){
+        try {
+            //ler mais informações no JAVA DOC
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create(address))
+                    .build();
+
+            HttpResponse<String> response = client
+                    .send(request, HttpResponse.BodyHandlers.ofString());
+
+            String json = response.body();
+            System.out.println(json);
+
+            return meuTituloOMDB = gson.fromJson(json, TitulosOMDB.class);
+
+        } catch (NumberFormatException e) {
+            System.err.println("Aconteceu um erro: ");
+            System.out.println(e.getMessage());
+        } catch (IllegalArgumentException e) {
+            System.err.println("Algum erro de argumento");
+        } catch (ErroDeConversaoDeAnoException e) {
+            System.out.println(e.getMessage());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        return meuTituloOMDB;
+    }
+
+    public static String adicionaNaLista(TitulosOMDB titulosOMDB){
+        Tituulo meuTitulo = new Tituulo(titulosOMDB);
+        System.out.println(meuTitulo);
+
+        titles.add(meuTitulo);
+        return "Titulo ja convertido e adicionado na lista.";
+    }
+
+    public static String escreveNoArquivo() throws IOException {
         FileWriter wr = new FileWriter("filmes.json");
         wr.write(gson.toJson(titles));
         wr.close();
-        System.out.println("O programa finalizou corretamente.");
+        return "Escrito no arquivo com sucesso.";
     }
 }

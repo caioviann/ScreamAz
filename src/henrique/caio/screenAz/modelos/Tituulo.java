@@ -21,6 +21,7 @@ public class Tituulo implements Comparable<Tituulo> {
 
         if(meuTituloOMDB.year().length() > 4){
             throw new ErroDeConversaoDeAnoException("Não conseguir  converter o ano porque tem mais caracter que o permitido");
+
         }
         this.anoDeLancamento = Integer.valueOf(meuTituloOMDB.year());
         this.duracaoEmMinutos = Integer.valueOf(meuTituloOMDB.runtime().substring(0,2));
